@@ -1,0 +1,24 @@
+
+<h1>Piedra, Papel o Tijeras</h1>
+
+<div id="pantalla-inicio">
+	<button class="btn" onclick="iniciarJuego()">Iniciar Juego</button>
+</div>
+
+<div id="pantalla-juego" class="hidden">
+	<div id="marcador">Jugador 1: 0 | Jugador 2: 0</div>
+	<p id="turno-texto">Turno de: <b>Jugador 1</b></p>
+
+	<div class="opciones">
+		<button class="btn" onclick="elegir('Piedra')">Piedra</button>
+		<button class="btn" onclick="elegir('Papel')">Papel</button>
+		<button class="btn" onclick="elegir('Tijeras')">Tijeras</button>
+	</div>
+	<p id="resultado-ronda"></p>
+</div>
+
+<div id="pantalla-final" class="hidden">
+	<h2 id="mensaje-ganador"></h2>
+	<button class="btn" onclick="reiniciar()">Jugar de nuevo</button>
+	<button class="btn" style="background:#95a5a6;" onclick="finalizar()">Finalizar</button>
+</div>
