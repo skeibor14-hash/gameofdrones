@@ -1,0 +1,308 @@
+<div ng-app="App" ng-controller="Controlador">
+
+	<!-- Pantalla Inicial -->
+	<h1>Games of Drones</h1>
+
+	<hr>
+
+	<h3>--- Reglas ---</h3>
+	<div id="regla_visual"></div>
+	<h3>--- Reglas ---</h3>
+
+	<hr>
+
+	<!-- Pantalla continuar -->
+	<div ng-class="pantalla==='pantalla_juego_pendiente' ? '' : 'hidden' " >
+		<h3>
+			Posees un juego en progreso con los jugadores seleccionados, ¿Desea continuarlo o abandonar?
+		</h3>
+		<div>
+			<button
+				class="btn"
+				ng-click="continuar()"
+			>
+				Continuar juego
+			</button>
+			<button
+				class="btn red"
+				ng-click="abandonar()"
+			>
+				Abandonar juego
+			</button>
+		</div>
+	</div>
+
+	<!-- Pantalla 1 -->
+	<div ng-class="pantalla==='pantalla_uno' ? '' : 'hidden' " >
+		<div>
+			<input ng-model="jugador_uno_nombre" placeholder="Nombre jugador uno">
+			<input ng-model="jugador_dos_nombre" placeholder="Nombre jugador dos">
+		</div>
+		<div>
+			<button
+
+				ng-class="jugador_uno_nombre && jugador_dos_nombre ? '' : 'disabled'"
+				class="btn"
+				ng-click="comenzar()"
+			>
+				Iniciar Juego
+			</button>
+			<button class="btn" ng-click="puntaje()">Puntaje de jugadores</button>
+		</div>
+	</div>
+
+
+	<!-- Pantalla 2 -->
+	<div ng-class="pantalla==='pantalla_dos' ? '' : 'hidden' " >
+
+		<div id="pantalla-juego">
+			<div class="marcador">
+				Jugador 1 [<span>{{ jugador_uno_nombre }}</span>] posee <span>{{ jugador_uno_pt }}</span> puntos.
+			</div>
+			<div class="marcador">
+				Jugador 2 [<span>{{ jugador_dos_nombre }}</span>] posee <span>{{ jugador_dos_pt }}</span> puntos.
+			</div>
+
+			<p>Turno de: <b>Jugador {{ jugador_actual }}</b>.</p>
+
+			<!-- <p ng-class=" jugador_uno_eleccion === '' ? 'hidden' : '' ">Jugador 1 selecciono: <b>{{ jugador_uno_eleccion }}</b>.</p> -->
+			<!-- <p ng-class=" jugador_dos_eleccion === '' ? 'hidden' : '' ">Jugador 2 selecciono: <b>{{ jugador_dos_eleccion }}</b>.</p> -->
+
+
+			<p>Turno actual: <b>{{ turno_actual }}</b>.</p>
+
+			<div class="opciones">
+				<button class="btn" ng-click="turno_elegir( 1, 'Piedra'		)">Piedra</button>
+				<button class="btn" ng-click="turno_elegir( 2, 'Papel'		)">Papel</button>
+				<button class="btn" ng-click="turno_elegir( 3, 'Tijeras'	)">Tijeras</button>
+			</div>
+
+			<p id="resultado-ronda"></p>
+		</div>
+	</div>
+
+	<!-- Pantalla 3 -->
+	<div ng-class="pantalla==='pantalla_tres' ? '' : 'hidden' " >
+
+		<div id="pantalla-final">
+			<h2>
+				<div>Ganador:				{{ jugador_ganador }}	</div>
+				<div>Perdedor:				{{ jugador_perdedor }}	</div>
+				<hr>
+				<div>Puntaje jugador 1:		{{ jugador_uno_pt }}	</div>
+				<div>Puntaje jugador 2:		{{ jugador_dos_pt }}	</div>
+				<hr>
+				<div>Turnos:				{{ turno_actual }}		</div>
+			</h2>
+			<button class="btn" ng-click="reiniciar_juego()">Jugar de nuevo</button>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	angular.module('App', []).controller('Controlador', ['$scope', $scope => {
+		/**/
+		/*Modelos*/
+
+			/*[NECESARIO]:  Traer datos de reglas ID 1*/
+			$scope.reglas_visual				= `
+				<h3>Papel		<span class="vence_a">vence a</span>	Piedra</h3>
+				<h3>Piedra		<span class="vence_a">vence a</span>	Tijeras</h3>
+				<h3>Tijeras		<span class="vence_a">vence a</span>	Papel</h3>
+			`;
+
+			/*[NECESARIO]:  Traer datos de reglas Formula ID 1*/
+			$scope.reglas_formula				= ';1>3;2>1;3>2;';
+
+			$scope.pantalla						= '';
+
+			$scope.turno_actual					= 0;
+			$scope.jugador_actual				= 0;
+
+			$scope.jugador_uno_pt				= 0;
+			$scope.jugador_dos_pt				= 0;
+
+			$scope.jugador_uno_nombre			= '';
+			$scope.jugador_dos_nombre			= '';
+
+			$scope.jugador_uno_eleccion			= '';
+			$scope.jugador_dos_eleccion			= '';
+
+			$scope.jugador_uno_id_eleccion		= '';
+			$scope.jugador_dos_id_eleccion		= '';
+
+			$scope.jugador_ganador				= '';
+			$scope.jugador_perdedor				= '';
+		/**/
+		/*Clicks*/
+			$scope.puntaje = _ => {
+				/*[NECESARIO]: Tabla de jugadores + juegos*/
+			};
+			$scope.abandonar = _ => {
+				if(
+					confirm('Esta a punto de abandonar un juego, ¿continuar?')
+				){
+					/**/
+					/*envio de abandono de juego*/
+						/*[NECESARIO]: envio de abandono de juego*/
+					/**/
+					/*Enviar aviso*/
+						alert('¡Juego abandonado, iniciando nuevo juego!');
+					/**/
+					/*Reiniciar juego actual*/
+						$scope.reiniciar_juego();
+					/**/
+				}
+			};
+			$scope.continuar = _ => {
+				/**/
+				/*Obtener juego actual*/
+					/*[NECESARIO]: envio de continuar juego*/
+				/**/
+				/*Enviar aviso*/
+					alert('¡Juego continuado!');
+				/**/
+			};
+			$scope.reiniciar_juego = _ => {
+
+				$scope.pantalla						= 'pantalla_uno';
+
+				$scope.turno_actual					= 1;
+				$scope.jugador_actual				= 1;
+
+				$scope.jugador_uno_pt				= 0;
+				$scope.jugador_dos_pt				= 0;
+
+				$scope.jugador_uno_nombre			= '';
+				$scope.jugador_dos_nombre			= '';
+
+				$scope.jugador_uno_eleccion			= '';
+				$scope.jugador_dos_eleccion			= '';
+
+				$scope.jugador_uno_id_eleccion		= '';
+				$scope.jugador_dos_id_eleccion		= '';
+
+				$scope.jugador_ganador				= '';
+				$scope.jugador_perdedor				= '';
+			};
+			$scope.comenzar = _ => {
+				/**/
+				/*VAlidar nombres*/
+					/*[NECESARIO]: Validar nombres*/
+				/**/
+				/*VAlidar si juego abandonado o en progreso*/
+					/*[NECESARIO]: juego en progreso*/
+				/**/
+				/*Cargar juego en progreso si elegido*/
+					/*[NECESARIO]: juego en progreso*/
+				/**/
+				/*Cambiar*/
+					$scope.pantalla = 'pantalla_dos';
+				/**/
+			};
+			$scope.turno_elegir = ( eleccion_id, eleccion) => {
+				/**/
+				/*Asignar eleccion*/
+					if(
+						$scope.jugador_actual === 1
+					){
+						/**/
+						/*Eleccion jugador uno*/
+							$scope.jugador_uno_id_eleccion	= eleccion_id;
+							$scope.jugador_uno_eleccion		= eleccion;
+						/**/
+						/*Cambio de jugador*/
+							$scope.jugador_actual			= 2;
+						/**/
+					}
+				/**/
+				/*Turno === 2; Comparar*/
+					else{
+						/**/
+						/*Eleccion jugador uno*/
+							$scope.jugador_dos_id_eleccion	= eleccion_id;
+							$scope.jugador_dos_eleccion		= eleccion;
+						/**/
+						/*Cambio de jugador*/
+							$scope.jugador_actual			= 1;
+						/**/
+						/*Realizar eleccion*/
+							if(
+								`${ $scope.reglas_formula }`.indexOf( `;${ $scope.jugador_uno_id_eleccion }>${ $scope.jugador_dos_id_eleccion };` ) !== -1
+							){
+
+								++$scope.jugador_uno_pt;
+								alert('¡Punto para jugador uno!');
+
+								/*[NECESARIO]: Registrar en DB objetos actuales*/
+							}
+						/**/
+						/*Realizar eleccion*/
+							else if(
+								`${ $scope.reglas_formula }`.indexOf( `;${ $scope.jugador_dos_id_eleccion}>${ $scope.jugador_uno_id_eleccion };` ) !== -1
+							){
+
+								++$scope.jugador_dos_pt;
+								alert('¡Punto para jugador dos!');
+
+								/*[NECESARIO]: Registrar en DB objetos actuales*/
+							}
+						/**/
+						/*Realizar eleccion*/
+							else{
+
+								alert('Empate, partida continua');
+
+								/*[NECESARIO]: Registrar en DB objetos actuales*/
+							}
+						/**/
+						/*Ganador jugador 1*/
+							if(
+								$scope.jugador_uno_pt >= 3
+							){
+								/**/
+								/*Felicidades*/
+									alert('¡Jugador uno gana!');
+								/**/
+								/*Cambio de pantalla*/
+									$scope.pantalla		= 'pantalla_tres';
+								/**/
+								/*Llenado de valores*/
+									$scope.jugador_ganador		= $scope.jugador_uno_nombre;
+									$scope.jugador_perdedor		= $scope.jugador_dos_nombre;
+								/**/
+								/*[NECESARIO]: Registrar en DB ganador actual*/
+								/**/
+							}
+							else if(
+								$scope.jugador_dos_pt >= 3
+							){
+								/**/
+								/*Felicidades*/
+									alert('¡Jugador dos gana!');
+								/**/
+								/*Cambio de pantalla*/
+									$scope.pantalla		= 'pantalla_tres';
+								/**/
+								/*Llenado de valores*/
+									$scope.jugador_ganador		= $scope.jugador_dos_nombre;
+									$scope.jugador_perdedor		= $scope.jugador_uno_nombre;
+								/**/
+								/*[NECESARIO]: Registrar en DB ganador actual*/
+								/**/
+							}
+						/**/
+					}
+				/**/
+				/*Sumar Turno*/
+					++$scope.turno_actual;
+				/**/
+			};
+		/**/
+		/*Reiniciar*/
+			$scope.reiniciar_juego();
+		/**/
+		/*Carga de reglas*/
+			regla_visual.innerHTML = $scope.reglas_visual;
+		/**/
+	}]);
+</script>
