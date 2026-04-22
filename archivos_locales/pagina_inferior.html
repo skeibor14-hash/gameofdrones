@@ -1,0 +1,10 @@
+		</div>
+
+		<!-- Carga de sanitizacion -->
+		<script nonce="{$_nonce_$}">
+			for( let elemento of document.querySelectorAll('[data-descapar]') ){
+				elemento.innerText = Sanitizador.descapar( elemento.dataset.descapar );
+			}
+		</script>
+	</body>
+</html>
